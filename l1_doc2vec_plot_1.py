@@ -1,0 +1,30 @@
+import func 
+
+df_1 = func.pickle.load(open('data/l1_data.pkl', 'rb'))
+
+scores_nodes_1 = func.pickle.load(open('results_1/l1_doc2vec_nodes.pkl', 'rb'))
+scores_nodes_with_words_1 = func.pickle.load(open('results_1/l1_doc2vec_nodes_with_words.pkl', 'rb'))
+scores_words_1 = func.pickle.load(open('results_1/l1_doc2vec_words.pkl', 'rb'))
+scores_parts_of_speech_1 = func.pickle.load(open('results_1/l1_doc2vec_parts_of_speech.pkl', 'rb'))
+
+fig, ((ax1, ax2), (ax3, ax4)) = func.plt.subplots(2, 2, figsize=(12, 10), constrained_layout = True)
+fig.suptitle('Doc2Vec Similarities on Level 1 (part 1)')
+func.sns.heatmap(scores_nodes_1, ax=ax1, xticklabels=df_1['Title'], yticklabels=df_1['Title'], vmin=0.7, vmax=1.0, cmap='Reds')
+func.sns.heatmap(scores_nodes_with_words_1, ax=ax2, xticklabels=df_1['Title'], yticklabels=df_1['Title'], vmin=0.7, vmax=1.0, cmap='Reds')
+func.sns.histplot(scores_nodes_1[func.np.triu_indices(df_1.shape[0], k = 1)], ax=ax3)
+func.sns.histplot(scores_nodes_with_words_1[func.np.triu_indices(df_1.shape[0], k = 1)], ax=ax4)
+ax1.set_title('Doc2Vec Nodes Similarity Matrix')
+ax2.set_title('Doc2Vec Nodes with Words Similarity Matrix')
+func.plt.savefig('figures_1/l1_doc2vec_part1.png')
+func.plt.show()
+
+fig, ((ax1, ax2), (ax3, ax4)) = func.plt.subplots(2, 2, figsize=(12, 10), constrained_layout = True)
+fig.suptitle('Doc2Vec Similarities on Level 1 (part 2)')
+func.sns.heatmap(scores_words_1, ax=ax1, xticklabels=df_1['Title'], yticklabels=df_1['Title'], vmin=0.85, vmax=1.0, cmap='Reds')
+func.sns.heatmap(scores_parts_of_speech_1, ax=ax2, xticklabels=df_1['Title'], yticklabels=df_1['Title'], vmin=0.85, vmax=1.0, cmap='Reds')
+func.sns.histplot(scores_words_1[func.np.triu_indices(df_1.shape[0], k = 1)], ax=ax3)
+func.sns.histplot(scores_parts_of_speech_1[func.np.triu_indices(df_1.shape[0], k = 1)], ax=ax4)
+ax1.set_title('Doc2Vec Words Similarity Matrix')
+ax2.set_title('Doc2Vec Parts of Speech Similarity Matrix')
+func.plt.savefig('figures_1/l1_doc2vec_part2.png')
+func.plt.show()
